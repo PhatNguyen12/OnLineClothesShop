@@ -1,6 +1,7 @@
 CREATE TABLE Users (
     userId INT IDENTITY(1,1) PRIMARY KEY,
-    name NVARCHAR(100),
+    firstName NVARCHAR(100),
+    lastName NVARCHAR(100),
     address NVARCHAR(255),
     email NVARCHAR(100) UNIQUE,
     phone NVARCHAR(20),
