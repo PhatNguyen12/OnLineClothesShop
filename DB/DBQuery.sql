@@ -1,66 +1,73 @@
 CREATE TABLE Users (
-    id INT IDENTITY(1,1) PRIMARY KEY ,
-    name VARCHAR(100),
-    address VARCHAR(255),
-    email VARCHAR(100) UNIQUE,
-    phone VARCHAR(20),
-    username VARCHAR(50) UNIQUE,
-    password VARCHAR(255),
-    role VARCHAR(20)
+    userId INT IDENTITY(1,1) PRIMARY KEY,
+    name NVARCHAR(100),
+    address NVARCHAR(255),
+    email NVARCHAR(100) UNIQUE,
+    phone NVARCHAR(20),
+    username NVARCHAR(50) UNIQUE,
+    password NVARCHAR(255),
+    role NVARCHAR(20)
 );
-CREATE TABLE Product_Category (
-    id INT IDENTITY(1,1) PRIMARY KEY ,
-    category_name VARCHAR(100)
+
+CREATE TABLE ProductCategory (
+    productCategoryId INT IDENTITY(1,1) PRIMARY KEY,
+    categoryName NVARCHAR(100)
 );
+
 CREATE TABLE Product (
-    id INT IDENTITY(1,1) PRIMARY KEY ,
-    description TEXT,
-    image VARCHAR(255),
-    name VARCHAR(100),
+    productId INT IDENTITY(1,1) PRIMARY KEY,
+    description NVARCHAR(MAX),
+    image NVARCHAR(255),
+    name NVARCHAR(100),
     price DECIMAL(10, 2),
     quantity INT,
-    product_category_id INT,
-    FOREIGN KEY (product_category_id) REFERENCES Product_Category(id)
+    productCategoryId INT,
+    FOREIGN KEY (productCategoryId) REFERENCES ProductCategory(productCategoryId)
 );
-CREATE TABLE Shopping_Cart (
-    id INT IDENTITY(1,1) PRIMARY KEY ,
-    transaction_id_user INT,
-    transaction_id_merchant INT,
-    shop_order_id INT,
-    user_id INT,
-    FOREIGN KEY (user_id) REFERENCES Users(id)
+
+CREATE TABLE ShoppingCart (
+    shoppingCartId INT IDENTITY(1,1) PRIMARY KEY,
+    transactionIdUser INT,
+    transactionIdMerchant INT,
+    shopOrderId INT,
+    userId INT,
+    FOREIGN KEY (userId) REFERENCES Users(userId)
 );
-CREATE TABLE Shopping_Cart_Item (
-    id INT IDENTITY(1,1) PRIMARY KEY ,
+
+CREATE TABLE ShoppingCartItem (
+    shoppingCartItemId INT IDENTITY(1,1) PRIMARY KEY,
     quantity INT,
-    product_id INT,
-    shopping_cart_id INT,
-    FOREIGN KEY (product_id) REFERENCES Product(id),
-    FOREIGN KEY (shopping_cart_id) REFERENCES Shopping_Cart(id)
+    productId INT,
+    shoppingCartId INT,
+    FOREIGN KEY (productId) REFERENCES Product(productId),
+    FOREIGN KEY (shoppingCartId) REFERENCES ShoppingCart(shoppingCartId)
 );
+
 CREATE TABLE Shipping (
-    id INT IDENTITY(1,1) PRIMARY KEY,
+    shippingId INT IDENTITY(1,1) PRIMARY KEY,
     name NVARCHAR(100),
     price DECIMAL(10, 2)
 );
-CREATE TABLE Shop_Order (
-    id INT IDENTITY(1,1) PRIMARY KEY,
-    date_order DATETIME DEFAULT GETDATE(),
-    total_price DECIMAL(10, 2),
-    status_order NVARCHAR(50),
-    address_shipping NVARCHAR(255),
-    shipping_id INT,
-    user_id INT,
-    FOREIGN KEY (shipping_id) REFERENCES Shipping(id),
-    FOREIGN KEY (user_id) REFERENCES Users(id)
+
+CREATE TABLE ShopOrder (
+    shopOrderId INT IDENTITY(1,1) PRIMARY KEY,
+    dateOrder DATETIME DEFAULT GETDATE(),
+    totalPrice DECIMAL(10, 2),
+    statusOrder NVARCHAR(50),
+    addressShipping NVARCHAR(255),
+    shippingId INT,
+    userId INT,
+    FOREIGN KEY (shippingId) REFERENCES Shipping(shippingId),
+    FOREIGN KEY (userId) REFERENCES Users(userId)
 );
 
+
 CREATE TABLE Payment (
-    id INT IDENTITY(1,1) PRIMARY KEY,
-    date_payment DATETIME DEFAULT GETDATE(),
-    method_payment NVARCHAR(50),
-    shopping_cart_id INT,
-    user_id INT,
-    FOREIGN KEY (shopping_cart_id) REFERENCES Shopping_Cart(id),
-    FOREIGN KEY (user_id) REFERENCES Users(id)
+    paymentId INT IDENTITY(1,1) PRIMARY KEY,
+    datePayment DATETIME DEFAULT GETDATE(),
+    methodPayment NVARCHAR(50),
+    shoppingCartId INT,
+    userId INT,
+    FOREIGN KEY (shoppingCartId) REFERENCES ShoppingCart(shoppingCartId),
+    FOREIGN KEY (userId) REFERENCES Users(userId)
 );
